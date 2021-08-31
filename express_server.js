@@ -67,23 +67,22 @@ example, if the ID of the long url was b2xVn2, then the url would look like /url
 app.get("/urls/:shortURL", (req, res) => {
   console.log(req.params)
   console.log(urlDatabase)
-  const longURL = req.params.shortURL
+  let shortURL = req.params.shortURL
   
   //longURL takes in obj urlDatabase to gain access one of the long urls
-  const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase };
+  const templateVars = { 
+    shortURL: req.params.shortURL, 
+    longURL: urlDatabase };
   res.render("urls_show", templateVars);
-
-  // res.redirect(longURL);
 });
 
 //generate a link that will redirect to the appropriate longURL
 app.get("/u/:shortURL", (req, res) => {
 
-  console.log(req.params)
-  console.log(urlDatabase)
-
+  // console.log(req.params)
+  // console.log(urlDatabase)
   const longURL = urlDatabase[req.params.shortURL].longURL
-  console.log("longURL", longURL)
+  // console.log("longURL", longURL)
   res.redirect(longURL);
 });
 
@@ -97,4 +96,10 @@ app.post("/urls", (req, res) => {
   };
   // console.log(req.body);  // Log the POST request body to the console
   res.redirect(`/urls/${shortURL}`);// Respond with 'Ok' (we will replace this)
+});
+
+app.post("/urls/:shortURL/delete", (req, res) => {
+  const shortURL = req.params.shortURL;
+  delete urlDatabase[shortURL];
+  res.redirect("/urls");
 });
