@@ -36,11 +36,14 @@ app.get("/urls", (req, res) => {
   
   //passes url data to template
   res.render("urls_index", templateVars);
+  
 });
 
 /*the value in this part of the url will be available in the req.params object
 example, if the ID of the long url was b2xVn2, then the url would look like /urls/b2xVn2 in the browser. Further, the value of req.params.shortURL would be b2xVn2.*/
 app.get("/urls/:shortURL", (req, res) => {
+
+  //longURL takes in obj urlDatabase to gain access one of the ong urls
   const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase };
   res.render("urls_show", templateVars);
 });
