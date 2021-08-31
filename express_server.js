@@ -28,3 +28,11 @@ app.get("/urls.json", (req, res) => {
 app.get("/hello", (req, res) => {
   res.send("<html><body>Hello <b>World</b></body></html>\n");
 });
+
+//contains an object called urlDatabase, which we use to keep track of all the URLs and their shortened forms, corresp to all urls in urls_index.ejs
+app.get("/urls", (req, res) => {
+  const templateVars = { urls: urlDatabase };
+
+  //passes url data to template
+  res.render("urls_index", templateVars);
+});
