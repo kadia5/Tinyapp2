@@ -98,8 +98,17 @@ app.post("/urls", (req, res) => {
   res.redirect(`/urls/${shortURL}`);// Respond with 'Ok' (we will replace this)
 });
 
+//lets you edit a posted link and redirects to edit page for shorturls
+app.post("/urls/:shortURL/edit", (req, res) => {
+  const shortURL = req.params.shortURL;
+  
+  res.redirect(`/urls/${shortURL}`);
+});
+
+//lets you delete a posted link/shorturl
 app.post("/urls/:shortURL/delete", (req, res) => {
   const shortURL = req.params.shortURL;
   delete urlDatabase[shortURL];
   res.redirect("/urls");
 });
+
