@@ -2,6 +2,10 @@ const express = require("express");
 const app = express();
 const PORT = 8080; // default port 8080
 
+// body-parser library will convert the request body from a Buffer into string that we can read. It will then add the data to the req(request) object under the key body
+const bodyParser = require("body-parser");
+app.use(bodyParser.urlencoded({extended: true}));
+
 app.set("view engine", "ejs");
 
 const urlDatabase = {
@@ -39,6 +43,11 @@ app.get("/urls", (req, res) => {
   
 });
 
+//requests basic form page that used to submit URLs to be shortened or make "new" urls from urls_new
+app.get("/urls/new", (req, res) => {
+  res.render("urls_new");
+});
+
 /*the value in this part of the url will be available in the req.params object
 example, if the ID of the long url was b2xVn2, then the url would look like /urls/b2xVn2 in the browser. Further, the value of req.params.shortURL would be b2xVn2.*/
 app.get("/urls/:shortURL", (req, res) => {
@@ -48,3 +57,7 @@ app.get("/urls/:shortURL", (req, res) => {
   res.render("urls_show", templateVars);
 });
 
+app.post("/urls", (req, res) => {
+  console.log(req.body);  // Log the POST request body to the console
+  res.send("Ok");         // Respond with 'Ok' (we will replace this)
+});
