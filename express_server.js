@@ -23,7 +23,8 @@ app.set("view engine", "ejs");
 
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
-  "9sm5xK": "http://www.google.com"
+  "9sm5xK": "http://www.google.com",
+  // "shortURL": "longURL"
 };
 
 //listens to port
@@ -64,13 +65,36 @@ app.get("/urls/new", (req, res) => {
 /*the value in this part of the url will be available in the req.params object
 example, if the ID of the long url was b2xVn2, then the url would look like /urls/b2xVn2 in the browser. Further, the value of req.params.shortURL would be b2xVn2.*/
 app.get("/urls/:shortURL", (req, res) => {
-
-  //longURL takes in obj urlDatabase to gain access one of the ong urls
+  console.log(req.params)
+  console.log(urlDatabase)
+  const longURL = req.params.shortURL
+  
+  //longURL takes in obj urlDatabase to gain access one of the long urls
   const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase };
   res.render("urls_show", templateVars);
+
+  // res.redirect(longURL);
 });
 
+//generate a link that will redirect to the appropriate longURL
+app.get("/u/:shortURL", (req, res) => {
+
+  console.log(req.params)
+  console.log(urlDatabase)
+
+  const longURL = urlDatabase[req.params.shortURL].longURL
+  console.log("longURL", longURL)
+  res.redirect(longURL);
+});
+
+//generates a random string when redirectd to urls/shorturls
 app.post("/urls", (req, res) => {
-  console.log(req.body);  // Log the POST request body to the console
-  res.send("Ok");         // Respond with 'Ok' (we will replace this)
+  const shortURL = generateRandomString();
+
+  urlDatabase[shortURL] = {
+    longURL: req.body.longURL,
+    
+  };
+  // console.log(req.body);  // Log the POST request body to the console
+  res.redirect(`/urls/${shortURL}`);// Respond with 'Ok' (we will replace this)
 });
