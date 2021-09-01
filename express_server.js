@@ -75,11 +75,11 @@ app.get ('/urls/:shortURL', (req, res) => {
 
 //generate a link that will redirect to the appropriate longURL
 app.get ('/u/:shortURL', (req, res) => {
-  // console.log(req.params)
-  // console.log(urlDatabase)
   const longURL = urlDatabase[req.params.shortURL].longURL;
-  // console.log("longURL", longURL)
-  res.redirect (longURL);
+  // if (!longURL.includes('http://')) {
+  //   longURL = 'http://' + longURL;
+  // }
+  res.redirect(longURL);
 });
 
 app.get ('/login', (req, res) => {
