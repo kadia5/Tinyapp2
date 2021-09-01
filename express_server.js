@@ -14,7 +14,6 @@ function generateRandomString () {
 const express = require ('express');
 const app = express ();
 const PORT = 8080; // default port 8080
-
 // body-parser library will convert the request body from a Buffer into string that we can read. It will then add the data to the req(request) object under the key body
 const bodyParser = require ('body-parser');
 const cookieParser = require ('cookie-parser');
@@ -23,11 +22,13 @@ app.use (cookieParser ());
 app.set ('view engine', 'ejs');
 
 const urlDatabase = {
+  // shortURL: "longURL"
   b2xVn2: 'http://www.lighthouselabs.ca',
   '9sm5xK': 'http://www.google.com',
-  // "shortURL": "longURL"
 };
 
+
+// ___ALL GET REQUESTS START HERE___
 
 
 //sends hello to client browser
@@ -89,6 +90,10 @@ app.get ('/login', (req, res) => {
   res.render('urls_login', templateVars);
 });
 
+
+// ____ALL POST REQUESTS START HERE____
+
+
 //generates a random string when redirectd to urls/shorturls
 app.post ('/urls', (req, res) => {
   const shortURL = generateRandomString ();
@@ -121,8 +126,8 @@ app.post ('/login', (req, res) => {
 });
 
 app.post ('/logout', (req, res) => {
-  let username = req.body.username;
-  res.cookie ('username', username);
+  // let username = req.body.username;
+  res.clearCookie("username");
   res.redirect('/urls/');
 });
 //below code displays username
@@ -130,6 +135,13 @@ app.post ('/logout', (req, res) => {
 //   username: req.cookies["username"],
 // };
 // res.render("urls_index", templateVars);
+
+
+
+
+
+
+
 
 
 //listens to port
