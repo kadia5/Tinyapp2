@@ -89,7 +89,7 @@ app.get("/u/:shortURL", (req, res) => {
 //generates a random string when redirectd to urls/shorturls
 app.post("/urls", (req, res) => {
   const shortURL = generateRandomString();
-
+ console.log(req.body)
   urlDatabase[shortURL] = {
     longURL: req.body.longURL,
     
