@@ -20,10 +20,15 @@
         <button type="submit"class="btn btn-outline-dark">Logout</button>
         </form>
    <% }else{ %>
-    <form method="POST" action="/login" >
-      <input type="text" id="username" name="username" ><br><br>
-      <button type="submit"class="btn btn-outline-dark">Login</button>
-    </form>
+    <form method="POST" action="/login" ></form>
+    <input type="text" id="username" name="username" placeholder="username" ><br><br>
+    <button type="submit"class="btn btn-outline-dark">Login</button>
+    
+    
+      <form method="POST" action="/register" ></form>
+      <!-- <input type="text" id="username" name="username" ><br><br> -->
+      <button type="submit"class="btn btn-outline-dark">register</button>
+    
    <% } %>
   </nav>
 </header>
