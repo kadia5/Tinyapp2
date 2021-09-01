@@ -8,15 +8,21 @@
       <div class="navbar-nav">
         <a class="nav-item nav-link" href="/urls">My URLs</a>
         <a class="nav-item nav-link" href="/urls/new">Create New URL</a>
-      </div class="d-grid gap-2 d-md-flex justify-content-md-end">
 
-      <form method="POST" action="/login">
-         <!--to print a variable -->
-        <%= username %>
-        <input type="text" name="username"><br><br>
-        <button type="submit" class="btn btn-dark">Submit</button>
-      </form> 
-     
+       
+      </div>
     </div>
+     <!-- code that checks if user is logged in or not and returns var -->
+     <% if(username) { %>
+      <form method="POST" action="/logout" >
+        <h5>Logged In As: <%=username %></h5>
+          <span class="badge badge-dark"></span>
+        <button type="submit"class="btn btn-outline-dark">Logout</button>
+        </form>
+   <% }else{ %>
+    <form method="POST" action="/logout" >
+    <a class="nav-item nav-link" href="/login">Login</a>
+     </form>
+   <% } %>
   </nav>
 </header>

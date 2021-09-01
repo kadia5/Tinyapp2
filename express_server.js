@@ -18,7 +18,6 @@ const PORT = 8080; // default port 8080
 // body-parser library will convert the request body from a Buffer into string that we can read. It will then add the data to the req(request) object under the key body
 const bodyParser = require ('body-parser');
 const cookieParser = require ('cookie-parser');
-
 app.use (bodyParser.urlencoded ({extended: true}));
 app.use (cookieParser ());
 app.set ('view engine', 'ejs');
@@ -29,10 +28,7 @@ const urlDatabase = {
   // "shortURL": "longURL"
 };
 
-//listens to port
-app.listen (PORT, () => {
-  console.log (`Example app listening on port ${PORT}!`);
-});
+
 
 //sends hello to client browser
 app.get ('/', (req, res) => {
@@ -86,6 +82,13 @@ app.get ('/u/:shortURL', (req, res) => {
   res.redirect (longURL);
 });
 
+app.get ('/login', (req, res) => {
+  let username = req.body.username;
+  const templateVars = { username: req.cookies['username']};
+
+  res.render('urls_login', templateVars);
+});
+
 //generates a random string when redirectd to urls/shorturls
 app.post ('/urls', (req, res) => {
   const shortURL = generateRandomString ();
@@ -100,7 +103,6 @@ app.post ('/urls', (req, res) => {
 //lets you edit a posted link and redirects to edit page for shorturls
 app.post ('/urls/:shortURL/edit', (req, res) => {
   const shortURL = req.params.shortURL;
-
   res.redirect (`/urls/${shortURL}`);
 });
 
@@ -116,4 +118,21 @@ app.post ('/login', (req, res) => {
   let username = req.body.username;
   res.cookie ('username', username);
   res.redirect ('/urls');
+});
+
+app.post ('/logout', (req, res) => {
+  let username = req.body.username;
+  res.cookie ('username', username);
+  res.redirect('/urls/');
+});
+//below code displays username
+// const templateVars = {
+//   username: req.cookies["username"],
+// };
+// res.render("urls_index", templateVars);
+
+
+//listens to port
+app.listen (PORT, () => {
+  console.log (`Example app listening on port ${PORT}!`);
 });
