@@ -1,4 +1,5 @@
 const express = require ('express');
+const {getUserByEmail} = require('./helpers');
 const app = express ();
 const PORT = 8080; // default port 8080
 // body-parser library will convert the request body from a Buffer into string that we can read. It will then add the data to the req(request) object under the key body
@@ -54,14 +55,14 @@ const users = {
 //   }
 //   return false;
 // };
-const getUserByEmail = function (inputEmail, users) {
-  for (let key in users) {
-    if (users[key].email == inputEmail) {
-      return users[key];
-    }
-  }
-  return false;
-};
+// const getUserByEmail = function (inputEmail, users) {
+//   for (let key in users) {
+//     if (users[key].email == inputEmail) {
+//       return users[key];
+//     }
+//   }
+//   return false;
+// };
 
 // ________URL Database________________________________________________
 
@@ -126,7 +127,7 @@ app.get ('/urls', (req, res) => {
   }
 });
 
-//requests basic form page that used to submit URLs to be shortened or make "new" urls from urls_new
+//requests basic form page that used to submit URLs to be shortened or make new urls 
 app.get ('/urls/new', (req, res) => {
   const longURL = req.params.longURL;
   const user_id = req.session.user_id;
@@ -191,7 +192,7 @@ app.post ('/urls', (req, res) => {
   res.redirect (`/urls/${shortURL}`); // Respond with 'Ok' (we will replace this)
 });
 
-//lets you EDIT a posted link and redirects to edit page for shorturls
+//lets you EDIT a posted link and redirects to urls page
 app.post ('/urls/:shortURL', (req, res) => {
   const user_id = req.session.user_id;
   if (!user_id) {
