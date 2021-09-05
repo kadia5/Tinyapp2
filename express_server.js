@@ -168,21 +168,12 @@ app.post ('/urls/:shortURL/delete', (req, res) => {
 
 //templateVar will set and define user in all other areas.
 app.post ('/login', (req, res) => {
-  const user_id = generateRandomString ();
-  const user = {
-    id: user_id,
-    email: req.body.email,
-    password: req.body.password,
-  };
-  users[user_id] = user;
   if (req.body.user_id === '' || req.body.password === '') {
     return res.status (403).send ('Enter email or password!');
   }
   if (getUserByEmail (req.body.email, users)) {
     let user = getUserByEmail (req.body.email, users);
     let checkPassword = bcryptjs.compareSync (req.body.password, user.password);
-    // console.log(user.password)
-    console.log (checkPassword);
 
     if (!checkPassword) {
       return res.status (403).send ("Password doesn't match");
