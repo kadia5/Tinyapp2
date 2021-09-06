@@ -48,7 +48,7 @@ const urlDatabase = {
 //redirects to urls page or login page when not logged in
 app.get ('/', (req, res) => {
   const user_id = req.session.user_id;
-  if (!user) {
+  if (!user_id) {
     res.redirect ('/login');
   } else {
     res.redirect ('/urls');
