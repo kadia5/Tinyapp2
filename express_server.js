@@ -5,8 +5,6 @@ const cookieSession = require ('cookie-session');
 const bcryptjs = require ('bcryptjs');
 const app = express ();
 const PORT = 8080; // default port 8080
-const password = '1'; // found in the req.params object
-const hashedPassword = bcryptjs.hashSync (password, 10);
 
 app.use (bodyParser.urlencoded ({extended: true}));
 app.use (cookieSession ({name: 'session', keys: ['key']}));
@@ -175,7 +173,7 @@ app.post ('/login', (req, res) => {
     let user = getUserByEmail (req.body.email, users);
     let checkPassword = bcryptjs.compareSync (req.body.password, user.password);
 
-    if (!checkPassword) {
+    if (!user && !checkPassword) {
       return res.status (403).send ("Password doesn't match");
     }
     req.session.user_id = user.id;
@@ -202,7 +200,7 @@ app.post ('/register', (req, res) => {
   const user = {
     id: user_id,
     email: req.body.email,
-    password: bcryptjs.hashSync (password, 10),
+    password: bcryptjs.hashSync (req.body.password, 10),
   };
   users[user_id] = user;
   req.session.user_id = user_id;
